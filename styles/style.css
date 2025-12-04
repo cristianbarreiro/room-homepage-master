@@ -85,6 +85,11 @@ body {
     font-family: 'League Spartan';
 }
 
+section p {
+    color: var(--dark-gray);
+}
+
+
 main {
     height: 100dvh;
     width: 100dvw;

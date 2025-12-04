@@ -6,6 +6,77 @@
     --font-size: 12px;
 }
 
+.zero {
+    position: relative;
+    z-index: 30;
+}
+
+#mobile-nav-open {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: var(--white);
+    padding: 2.5rem;
+    box-sizing: border-box;
+    max-width: 100vw;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease, visibility 0.3s ease;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 50;
+}
+
+#mobile-nav-open.is-visible {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+}
+
+#mobile-nav-open label {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+#menu-close-img {
+    width: 26px;
+    height: auto;
+    display: block;
+    cursor: pointer;
+    filter: brightness(0);
+}
+
+#mobile-nav-open input {
+    display: none;
+}
+
+#mobile-nav-open menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    margin: 4rem 0 0;
+    padding: 0;
+}
+
+#mobile-nav-open menu li {
+    list-style: none;
+}
+
+#mobile-nav-open menu a {
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.35rem;
+    font-weight: 600;
+    color: var(--black);
+    font-size: 1.5rem;
+}
+
+body.nav-locked {
+    overflow: hidden;
+}
+
 body {
     margin: 0;
     min-height: 100dvh;
@@ -84,26 +155,90 @@ input#info-2 {
 
 /* JS-only carousel: all slides hidden by default; JS muestra el activo */
 
+#mobile-nav,
+#desktop-nav menu {
+    list-style: none;
+}
 
-.one #desktop-nav {
-    position: relative;
-    z-index: 2;
+#mobile-nav {
+    position: absolute;
+    top: 2.5rem;
+    left: 0;
+    width: 100%;
+    padding: 0 2rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+#mobile-nav input {
+    display: none;
+}
+
+#mobile-nav label {
     display: flex;
-    align-content: center;
-    top: 50px;
+    align-items: center;
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-.one nav img {
-    height: 50px;
-    object-fit: scale-down;
-}
-
-.one nav menu {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+.menu-img {
+    width: 24px;
+    height: auto;
     cursor: pointer;
-    color: white;
 }
+
+#desktop-nav {
+    position: absolute;
+    top: 2.5rem;
+    left: 3rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+
+
+#desktop-nav menu {
+    display: flex;
+    gap: 2rem;
+    padding: 0;
+    margin: 0;
+}
+
+#desktop-nav a {
+    text-decoration: none;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.35rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 0.25rem;
+}
+
+#desktop-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--white);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.2s ease;
+}
+
+#desktop-nav a:hover::after,
+#desktop-nav a:focus-visible::after {
+    transform: scaleX(1);
+}
+
+
 
 button[class="shop-now"] {
     letter-spacing: 5px;
@@ -203,24 +338,8 @@ button[class="shop-now"] {
     background: var(--dark-gray);
 }
 
-#mobile-nav,
-input#mobile-menu-toggle-open,
-input#mobile-menu-toggle-close {
-    display: none;
-}
-
 li {
     list-style-type: none;
-}
-
-.zero {
-    display: none;
-}
-
-menu a,
-menu a:visited {
-    text-decoration: none;
-    color: white;
 }
 
 .attribution {
@@ -238,28 +357,13 @@ menu a:visited {
         width: 100dvw;
         display: grid;
         grid-template-areas:
-            "zero"
             "one"
             "two"
             "three"
             "four"
             "five";
         grid-template-columns: 1fr;
-        grid-template-rows: auto 40dvh 40dvh 20dvh 40dvh 20dvh;
-    }
-
-    .one #desktop-nav {
-        display: none;
-    }
-
-    .zero {
-        grid-area: zero;
-        height: 0dvh;
-    }
-
-    #mobile-nav-open {
-        display: flex;
-        place-items: center
+        grid-template-rows: 40dvh 40dvh 20dvh 40dvh 20dvh;
     }
 
     .back-forward {
@@ -288,40 +392,21 @@ menu a:visited {
         font-size: x-large;
     }
 
-    #mobile-nav {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        z-index: 1;
-    }
-
-    body.menu-open .zero {
-        display: grid;
-        place-items: center;
-        height: 20dvh;
-    }
-
-    body.menu-open section:not(.zero) {
-        filter: brightness(40%);
-        backdrop-filter: brightness(80%);
-    }
-
-    #mobile-nav-open menu {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    body.menu-open #mobile-nav {
-        display: none;
-    }
-
-    body:not(.menu-open) .zero {
-        display: none;
-    }
-
     .attribution {
         display: flex;
         justify-content: center;
         position: unset;
     }
 
+}
+
+@media (max-width: 992px) {
+    #desktop-nav {
+        display: none;
+    }
+
+    #mobile-nav {
+        display: flex;
+        justify-content: center;
+    }
 }

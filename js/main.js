@@ -78,22 +78,111 @@ class CarouselController {
 
 document.addEventListener('DOMContentLoaded', () => {
   new CarouselController();
-
-  const body = document.body;
-  const menuOpenTrigger = document.querySelector('.menu-img');
-  const menuCloseTrigger = document.getElementById('menu-close-img');
-
-  if (menuOpenTrigger) {
-    menuOpenTrigger.addEventListener('click', (event) => {
-      event.preventDefault();
-      body.classList.add('menu-open');
-    });
-  }
-
-  if (menuCloseTrigger) {
-    menuCloseTrigger.addEventListener('click', (event) => {
-      event.preventDefault();
-      body.classList.remove('menu-open');
-    });
-  }
+  new MobileMenuController();
 });
+
+class MobileMenuController {
+  constructor() {
+    this.overlay = document.getElementById('mobile-nav-open');
+    this.openLabel = document.querySelector('#mobile-nav label[for="mobile-menu-toggle-open"]');
+    this.openIcon = document.querySelector('.menu-img');
+    this.closeLabel = this.overlay ? this.overlay.querySelector('label[for="mobile-menu-toggle-close"]') : null;
+    this.closeIcon = document.getElementById('menu-close-img');
+    this.openInput = document.getElementById('mobile-menu-toggle-open');
+    this.closeInput = document.getElementById('mobile-menu-toggle-close');
+    this.links = this.overlay ? this.overlay.querySelectorAll('a') : [];
+    this.isOpen = false;
+    this.init();
+  }
+
+  init() {
+    if (
+      !this.overlay ||
+      (!this.openLabel && !this.openIcon && !this.openInput) ||
+      !this.closeIcon
+    ) {
+      return;
+    }
+
+    this.overlay.setAttribute('aria-hidden', 'true');
+    const primaryOpenTrigger = this.openIcon || this.openLabel;
+    if (primaryOpenTrigger) {
+      primaryOpenTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    this.getUniqueTriggers([this.openLabel, this.openIcon]).forEach((trigger) => {
+      this.prepareTrigger(trigger, () => this.open());
+    });
+
+    this.prepareTrigger(this.closeIcon, () => this.close());
+
+    if (this.openInput) {
+      this.openInput.addEventListener('change', () => {
+        if (this.openInput.checked) this.open();
+      });
+    }
+
+    this.links.forEach((link) => {
+      link.addEventListener('click', () => this.close());
+    });
+
+    this.overlay.addEventListener('click', (event) => {
+      if (event.target === this.overlay) this.close();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && this.isOpen) this.close();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 992 && this.isOpen) this.close();
+    });
+  }
+
+  prepareTrigger(element, action) {
+    element.setAttribute('role', 'button');
+    element.setAttribute('tabindex', '0');
+    element.addEventListener('click', (event) => {
+      event.preventDefault();
+      action();
+    });
+    element.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        action();
+      }
+    });
+  }
+
+  open() {
+    if (this.isOpen) return;
+    this.overlay.classList.add('is-visible');
+    document.body.classList.add('nav-locked');
+    this.overlay.setAttribute('aria-hidden', 'false');
+    const primaryOpenTrigger = this.openIcon || this.openLabel;
+    if (primaryOpenTrigger) {
+      primaryOpenTrigger.setAttribute('aria-expanded', 'true');
+    }
+    if (this.openInput) this.openInput.checked = true;
+    if (this.closeInput) this.closeInput.checked = false;
+    this.isOpen = true;
+  }
+
+  close() {
+    if (!this.isOpen) return;
+    this.overlay.classList.remove('is-visible');
+    document.body.classList.remove('nav-locked');
+    this.overlay.setAttribute('aria-hidden', 'true');
+    const primaryOpenTrigger = this.openIcon || this.openLabel;
+    if (primaryOpenTrigger) {
+      primaryOpenTrigger.setAttribute('aria-expanded', 'false');
+    }
+    if (this.closeInput) this.closeInput.checked = true;
+    if (this.openInput) this.openInput.checked = false;
+    this.isOpen = false;
+  }
+
+  getUniqueTriggers(elements) {
+    return [...new Set(elements.filter(Boolean))];
+  }
+}

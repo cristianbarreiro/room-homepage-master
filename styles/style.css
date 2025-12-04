@@ -276,7 +276,8 @@ button[class="shop-now"] {
 .available header,
 .manufactured header {
     font-weight: bold;
-    font-size: xx-large;
+    font-size: 36px;
+
 }
 
 .back-forward {
@@ -318,13 +319,8 @@ button[class="shop-now"] {
     font-size: larger;
     font-weight: bold;
     letter-spacing: 0.35rem;
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
-
-.discover header {
-    font-size: 36px;
-}
-
 
 .five {
     grid-area: five;

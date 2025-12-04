@@ -1,56 +1,99 @@
 class CarouselController {
-  constructor(selectorPrefix = 'info') {
-
-    this.radios = [
-      document.getElementById(`${selectorPrefix}-1`),
-      document.getElementById(`${selectorPrefix}-2`),
-      document.getElementById(`${selectorPrefix}-3`),
-      document.getElementById(`${selectorPrefix}-4`),
-      document.getElementById(`${selectorPrefix}-5`),
-      document.getElementById(`${selectorPrefix}-6`)
+  constructor() {
+    this.slides = [
+      {
+        image: document.getElementById('image-hero-1'),
+        article: document.querySelector('.discover'),
+        nav: document.querySelector('.back-forward')
+      },
+      {
+        image: document.getElementById('image-hero-2'),
+        article: document.querySelector('.available'),
+        nav: document.querySelector('.back-forward')
+      },
+      {
+        image: document.getElementById('image-hero-3'),
+        article: document.querySelector('.manufactured'),
+        nav: document.querySelector('.back-forward')
+      }
     ];
 
-    this.prevButton = document.getElementById(`${selectorPrefix}-1`);
-    this.nextButton = document.getElementById(`${selectorPrefix}-2`);
+    this.currentIndex = 0;
+    this.prevTrigger = document.getElementById('info-1');
+    this.nextTrigger = document.getElementById('info-2');
 
+    this.init();
+  }
+
+  init() {
+    this.updateView();
     this.attachEvents();
   }
 
-  getCurrentIndex() {
-    return this.radios.findIndex((radio) => radio && radio.checked);
+  updateView() {
+    this.slides.forEach((slide, index) => {
+      const isActive = index === this.currentIndex;
+      if (!slide.image || !slide.article || !slide.nav) return;
+
+      slide.image.style.display = isActive ? 'grid' : 'none';
+      slide.article.style.display = isActive ? 'grid' : 'none';
+      slide.nav.style.display = 'grid';
+    });
   }
 
   goNext() {
-    let current = this.getCurrentIndex();
-    if (current === -1) current = 0;
-    const next = (current + 1) % this.radios.length;
-    if (this.radios[next]) this.radios[next].checked = true;
+    this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+    this.updateView();
   }
 
   goPrev() {
-    let current = this.getCurrentIndex();
-    if (current === -1) current = 0;
-    const prev = (current - 1 + this.radios.length) % this.radios.length;
-    if (this.radios[prev]) this.radios[prev].checked = true;
+    this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    this.updateView();
   }
 
   attachEvents() {
-    if (this.prevButton) {
-      this.prevButton.addEventListener('click', (event) => {
+    if (this.prevTrigger) {
+      this.prevTrigger.addEventListener('click', (event) => {
         event.preventDefault();
         this.goPrev();
+        this.resetTriggers();
       });
     }
 
-    if (this.nextButton) {
-      this.nextButton.addEventListener('click', (event) => {
+    if (this.nextTrigger) {
+      this.nextTrigger.addEventListener('click', (event) => {
         event.preventDefault();
         this.goNext();
+        this.resetTriggers();
       });
     }
+  }
+
+  resetTriggers() {
+    [this.prevTrigger, this.nextTrigger].forEach((trigger) => {
+      if (trigger) trigger.checked = false;
+    });
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new CarouselController('info');
+  new CarouselController();
+
+  const body = document.body;
+  const menuOpenTrigger = document.querySelector('.menu-img');
+  const menuCloseTrigger = document.getElementById('menu-close-img');
+
+  if (menuOpenTrigger) {
+    menuOpenTrigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      body.classList.add('menu-open');
+    });
+  }
+
+  if (menuCloseTrigger) {
+    menuCloseTrigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      body.classList.remove('menu-open');
+    });
+  }
 });

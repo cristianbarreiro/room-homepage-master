@@ -41,6 +41,9 @@ main {
     height: 100%;
     object-fit: cover;
     z-index: 1;
+}
+
+#image-hero-1 {
     display: grid;
 }
 
@@ -65,99 +68,21 @@ main {
     z-index: 1;
 }
 
-input#info-1,
-input#info-3,
-input#info-5 {
+input#info-1 {
     background-image: url("../images/icon-angle-left.svg");
     appearance: none;
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
-input#info-2,
-input#info-4,
-input#info-6 {
+input#info-2 {
     background-image: url("../images/icon-angle-right.svg");
     appearance: none;
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
-main:has(#info-2:checked) .two article:not(.available),
-main:has(#info-5:checked) .two article:not(.available),
-main:has(#info-2:checked) .one img:not(#image-hero-2):not(#logo):not(.menu-img):not(#menu-close-img),
-main:has(#info-5:checked) .one img:not(#image-hero-2):not(#logo):not(.menu-img):not(#menu-close-img) {
-    display: none;
-}
-
-main:has(#info-2:checked) .available,
-main:has(#info-5:checked) .available,
-main:has(#info-2:checked) #image-hero-2,
-main:has(#info-5:checked) #image-hero-2 {
-    display: grid;
-}
-
-main:has(#info-2:checked) .back-forward-1,
-main:has(#info-5:checked) .back-forward-1 {
-    display: grid;
-}
-
-main:has(#info-2:checked) nav:not(.back-forward-1):not(#mobile-nav):not(#desktop-nav):not(#mobile-nav-open),
-main:has(#info-5:checked) nav:not(.back-forward-1):not(#mobile-nav):not(#desktop-nav):not(#mobile-nav-open) {
-    display: none;
-}
-
-
-
-main:has(#info-3:checked) .two article:not(.discover),
-main:has(#info-6:checked) .two article:not(.discover),
-main:has(#info-3:checked) .one img:not(#image-hero-1):not(#logo):not(.menu-img):not(#menu-close-img),
-main:has(#info-6:checked) .one img:not(#image-hero-1):not(#logo):not(.menu-img):not(#menu-close-img) {
-    display: none;
-}
-
-main:has(#info-3:checked) .discover,
-main:has(#info-6:checked) .discover,
-main:has(#info-3:checked) #image-hero-1,
-main:has(#info-6:checked) #image-hero-1 {
-    display: grid;
-}
-
-main:has(#info-3:checked) .back-forward,
-main:has(#info-6:checked) .back-forward {
-    display: grid;
-}
-
-main:has(#info-3:checked) nav:not(.back-forward):not(#mobile-nav):not(#desktop-nav):not(#mobile-nav-open),
-main:has(#info-6:checked) nav:not(.back-forward):not(#mobile-nav):not(#desktop-nav):not(#mobile-nav-open) {
-    display: none;
-}
-
-
-
-main:has(#info-4:checked) .two article:not(.manufactured),
-main:has(#info-1:checked) .two article:not(.manufactured),
-main:has(#info-4:checked) .one img:not(#image-hero-3):not(#logo):not(.menu-img):not(#menu-close-img),
-main:has(#info-1:checked) .one img:not(#image-hero-3):not(#logo):not(.menu-img):not(#menu-close-img) {
-    display: none;
-}
-
-main:has(#info-4:checked) .manufactured,
-main:has(#info-1:checked) .manufactured,
-main:has(#info-4:checked) #image-hero-3,
-main:has(#info-1:checked) #image-hero-3 {
-    display: grid;
-}
-
-main:has(#info-4:checked) .back-forward-2,
-main:has(#info-1:checked) .back-forward-2 {
-    display: grid;
-}
-
-main:has(#info-4:checked) nav:not(.back-forward-2):not(#mobile-nav):not(#desktop-nav):not(#mobile-nav-open),
-main:has(#info-1:checked) nav:not(.back-forward-2):not(#mobile-nav):not(#desktop-nav):not(#mobile-nav-open) {
-    display: none;
-}
+/* JS-only carousel: all slides hidden by default; JS muestra el activo */
 
 
 .one #desktop-nav {
@@ -219,14 +144,7 @@ button[class="shop-now"] {
     font-size: xx-large;
 }
 
-.back-forward-1,
-.back-forward-2 {
-    display: none;
-}
-
-.back-forward,
-.back-forward-1,
-.back-forward-2 {
+.back-forward {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -237,11 +155,10 @@ button[class="shop-now"] {
     grid-template-columns: 1fr 1fr;
     background: var(--black);
     cursor: pointer;
+    z-index: 2;
 }
 
-.back-forward input,
-.back-forward-1 input,
-.back-forward-2 input {
+.back-forward input {
     height: 5dvh;
     width: 2dvh;
 }
@@ -284,13 +201,6 @@ button[class="shop-now"] {
 .left:hover,
 .right:hover {
     background: var(--dark-gray);
-}
-
-.one .back-forward,
-.one .back-forward-1,
-.one .back-forward-2 {
-    z-index: 0;
-    visibility: hidden;
 }
 
 #mobile-nav,
@@ -352,25 +262,7 @@ menu a:visited {
         place-items: center
     }
 
-    .two .back-forward,
-    .two .back-forward-1,
-    .two .back-forward-2 {
-        display: none;
-        z-index: 0;
-        visibility: hidden;
-    }
-
-    .one .back-forward,
-    .one .back-forward-1,
-    .one .back-forward-2 {
-        visibility: visible;
-        display: grid;
-        z-index: 1;
-    }
-
-    .back-forward,
-    .back-forward-1,
-    .back-forward-2 {
+    .back-forward {
         position: absolute;
         left: unset;
         right: 0;
@@ -402,13 +294,13 @@ menu a:visited {
         z-index: 1;
     }
 
-    main:has(#mobile-menu-toggle-open:checked) .zero {
+    body.menu-open .zero {
         display: grid;
         place-items: center;
         height: 20dvh;
     }
 
-    main:has(#mobile-menu-toggle-open:checked) section:not(.zero) {
+    body.menu-open section:not(.zero) {
         filter: brightness(40%);
         backdrop-filter: brightness(80%);
     }
@@ -418,17 +310,11 @@ menu a:visited {
         grid-template-columns: repeat(4, 1fr);
     }
 
-    main:has(#mobile-menu-toggle-open:checked) #mobile-nav {
-
+    body.menu-open #mobile-nav {
         display: none;
     }
 
-    main:has(#mobile-menu-toggle-close:checked) #mobile-nav {
-        display: grid;
-        z-index: 1;
-    }
-
-    main:has(#mobile-menu-toggle-close:checked) .zero {
+    body:not(.menu-open) .zero {
         display: none;
     }
 

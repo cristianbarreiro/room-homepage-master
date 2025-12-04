@@ -219,7 +219,6 @@ input#info-2 {
     text-decoration: none;
     color: var(--white);
     text-transform: lowercase;
-    letter-spacing: 0.35rem;
     font-weight: 600;
     position: relative;
     padding-bottom: 0.25rem;

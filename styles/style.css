@@ -317,6 +317,12 @@ button[class="shop-now"] {
 .about header {
     font-size: larger;
     font-weight: bold;
+    letter-spacing: 0.35rem;
+    text-transform:uppercase;
+}
+
+.discover header {
+    font-size: 42px;
 }
 
 
